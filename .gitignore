@@ -4,3 +4,5 @@ target
 .project
 .settings
 .springBeans
+release.properties
+pom.xml.releaseBackup
