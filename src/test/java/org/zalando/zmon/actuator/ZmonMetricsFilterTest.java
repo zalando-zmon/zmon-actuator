@@ -96,8 +96,8 @@ public class ZmonMetricsFilterTest {
             TimeUnit.MILLISECONDS.sleep(random.nextInt(500));
         }
 
-        assertThat(metricRegistry.getTimers().get("zmon.response.200.hello")).isNotNull();
-        assertThat(metricRegistry.getTimers().get("zmon.response.503.hello")).isNotNull();
+        assertThat(metricRegistry.getTimers().get("zmon.response.200.GET.hello")).isNotNull();
+        assertThat(metricRegistry.getTimers().get("zmon.response.503.GET.hello")).isNotNull();
 
         String metricsEndpointResponse = restTemplate.getForObject("http://localhost:" + port + "/metrics",
                 String.class);

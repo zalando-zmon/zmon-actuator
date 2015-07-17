@@ -89,7 +89,7 @@ public class ZmonMetricsFilter extends OncePerRequestFilter {
 
     private void recordMetrics(final HttpServletRequest request, final String path, final int status, final long time) {
         String suffix = getFinalStatus(request, path, status);
-        submitToTimer(getKey("zmon.response." + status + suffix), time);
+        submitToTimer(getKey("zmon.response." + status + "." + request.getMethod().toUpperCase() + suffix), time);
     }
 
     private String getFinalStatus(final HttpServletRequest request, final String path, final int status) {
