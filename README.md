@@ -1,4 +1,7 @@
 ## Usage
+
+Add the following dependency to your spring-boot project and remember to add security to your management endpoints or move management endpoints to a different non public port.
+
 ```
 <dependency>
    <groupId>org.zalando.zmon</groupId>
