@@ -1,6 +1,17 @@
 ## Usage
 
-Add the following dependency to your spring-boot project and remember to add security to your management endpoints or move management endpoints to a different non public port.
+Add the following dependency to your spring-boot project.
+
+## Security
+
+Add security to your management endpoints or move management endpoints to a different non-public port.
+
+```
+management:
+  port: 7979
+```
+
+## Maven Dependency
 
 ```
 <dependency>
