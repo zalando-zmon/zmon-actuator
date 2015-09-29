@@ -21,6 +21,16 @@ management:
 </dependency>
 ```
 
+You need to have the base actuator dependency in place, too.
+
+```
+  <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+  </dependency>
+```
+
+
 ## Result on /metrics endpoint
 
 ```
