@@ -98,11 +98,8 @@ public class ZmonMetricsFilter extends OncePerRequestFilter {
             return fixSpecialCharacters(bestMatchingPattern.toString());
         }
 
-        if (is4xxClientError(status)) {
-            return UNKNOWN_PATH_SUFFIX;
-        }
-
-        return path;
+        // always return unknown, using the full path leads to an explosion of metrics due to path variables
+        return UNKNOWN_PATH_SUFFIX;
     }
 
     private String fixSpecialCharacters(final String value) {
@@ -120,14 +117,6 @@ public class ZmonMetricsFilter extends OncePerRequestFilter {
         }
 
         return result;
-    }
-
-    private boolean is4xxClientError(final int status) {
-        try {
-            return HttpStatus.valueOf(status).is4xxClientError();
-        } catch (Exception ex) {
-            return false;
-        }
     }
 
     private String getKey(final String string) {
