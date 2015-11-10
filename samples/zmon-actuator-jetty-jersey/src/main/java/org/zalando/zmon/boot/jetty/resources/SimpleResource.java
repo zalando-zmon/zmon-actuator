@@ -13,30 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zalando.zmon.jaxrs.jersey;
+package org.zalando.zmon.boot.jetty.resources;
 
-import javax.annotation.PostConstruct;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 
-import org.glassfish.jersey.server.ResourceConfig;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jersey.JerseyProperties;
+import org.springframework.stereotype.Component;
 
 /**
+ * Just for example.
+ * 
  * @author jbellmann
  *
  */
-public class BaseJerseyConfig extends ResourceConfig {
+@Component
+@Path("/simple")
+public class SimpleResource {
 
-	@Autowired
-	private JerseyProperties jerseyProperties;
-
-	public BaseJerseyConfig() {
+	@GET
+	@Path("/{id}/complex")
+	public String invoke(@PathParam("id") String id){
+		return id;
 	}
-
-	@PostConstruct
-	public void init() {
-		// wait until 1.3.0 released
-//		register(new BestMatchingPatternFilter(jerseyProperties.getApplicationPath()));
-	}
-
 }

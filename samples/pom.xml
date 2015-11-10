@@ -5,11 +5,37 @@
 		<groupId>org.zalando.zmon</groupId>
 		<artifactId>zmon-actuator-parent</artifactId>
 		<version>0.9.3-SNAPSHOT</version>
-		<relativePath />
 	</parent>
 	<artifactId>zmon-actuator-samples</artifactId>
 	<packaging>pom</packaging>
+
 	<modules>
 		<module>zmon-actuator-jetty-jersey</module>
 	</modules>
+
+	<profiles>
+		<profile>
+			<id>run-samples</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-failsafe-plugin</artifactId>
+						<version>2.18.1</version>
+						<configuration>
+							<argLine>-Ddebug</argLine>
+						</configuration>
+						<executions>
+							<execution>
+								<goals>
+									<goal>integration-test</goal>
+									<goal>verify</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>
