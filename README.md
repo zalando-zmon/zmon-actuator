@@ -32,7 +32,8 @@ You need to have the base actuator dependency in place, too.
 
 ## Spring Boot with Jersey vs SpringMVC
 
-See the Jersey module provided.
+See the (Jersey module provided)[https://github.com/zalando/zmon-actuator/tree/master/zmon-actuator-jaxrs-jersey]
+and the (example-application)[https://github.com/zalando/zmon-actuator/tree/master/samples/zmon-actuator-jetty-jersey].
 
 Important is to use at least the specified Jersey versions as defined in the POM. These will be included in spring boot 1.3+
 
