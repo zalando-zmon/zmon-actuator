@@ -30,6 +30,12 @@ You need to have the base actuator dependency in place, too.
 </dependency>
 ```
 
+## Spring Boot with Jersey vs SpringMVC
+
+See the Jersey module provided.
+
+Important is to use at least the specified Jersey versions as defined in the POM. These will be included in spring boot 1.3+
+
 ## Result on /metrics endpoint
 
 ```
