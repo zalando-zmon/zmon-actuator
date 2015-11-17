@@ -35,8 +35,7 @@ public class BaseJerseyConfig extends ResourceConfig {
 
 	@PostConstruct
 	public void init() {
-		// wait until 1.3.0 released
-//		register(new BestMatchingPatternFilter(jerseyProperties.getApplicationPath()));
+		register(new BestMatchingPatternFilter(jerseyProperties.getApplicationPath()));
 	}
 
 }
