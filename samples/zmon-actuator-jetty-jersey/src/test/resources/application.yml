@@ -1,2 +1,3 @@
-server:
-  servlet-path: /spring
+spring:
+  jersey:
+    application-path: /api
