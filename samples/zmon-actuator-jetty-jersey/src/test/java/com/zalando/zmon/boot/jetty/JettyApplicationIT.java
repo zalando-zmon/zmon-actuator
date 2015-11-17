@@ -33,6 +33,8 @@ import org.zalando.zmon.boot.jetty.JettyApplication;
 @SpringApplicationConfiguration(classes = { JettyApplication.class })
 @WebIntegrationTest
 public class JettyApplicationIT {
+	
+	private static String LINE = "\"counter.status.200.api.simple.id.complex\":100";
 
 	@Value("${local.server.port}")
 	private int port;
@@ -42,10 +44,13 @@ public class JettyApplicationIT {
 		RestTemplate rest = new RestTemplate();
 		for (int i = 0; i < 100; i++) {
 			ResponseEntity<String> response = rest
-					.getForEntity("http://localhost:" + port + "/simple/" + i + "/complex", String.class);
+					.getForEntity("http://localhost:" + port + "/api/simple/" + i + "/complex", String.class);
 			Assertions.assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
 		}
-
+		
+		ResponseEntity<String> metrics = rest.getForEntity("http://localhost:" + port + "/metrics", String.class); 
+		Assertions.assertThat(metrics.getBody()).contains(LINE);
+		// to use browser /metrics
 //		TimeUnit.MINUTES.sleep(2);
 	}
 

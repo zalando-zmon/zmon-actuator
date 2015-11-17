@@ -18,6 +18,8 @@ package org.zalando.zmon.boot.jetty.config;
 import javax.annotation.PostConstruct;
 
 import org.glassfish.jersey.server.ResourceConfig;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.jersey.JerseyProperties;
 import org.springframework.context.annotation.Configuration;
 import org.zalando.zmon.boot.jetty.resources.SimpleResource;
 import org.zalando.zmon.jaxrs.jersey.BestMatchingPatternFilter;
@@ -29,12 +31,15 @@ import org.zalando.zmon.jaxrs.jersey.BestMatchingPatternFilter;
  */
 @Configuration
 public class JerseyConfig extends ResourceConfig {
+	
+	@Autowired
+	private JerseyProperties jerseyProperties;
 
 	@PostConstruct
 	public void init() {
 		register(SimpleResource.class);
-		// when spring-boot 1.3.0 is released
-		// this can be done also via 'BaseJerseyConfig'
-		register(new BestMatchingPatternFilter("/api"));
+		// have a look at 'application.yml' to see the configuration for
+		// jerseyProperties#getApplicationPath()
+		register(new BestMatchingPatternFilter(jerseyProperties.getApplicationPath()));
 	}
 }
