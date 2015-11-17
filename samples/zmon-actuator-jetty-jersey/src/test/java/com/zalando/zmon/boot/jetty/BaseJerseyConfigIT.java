@@ -13,28 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zalando.zmon.boot.jetty.config;
+package com.zalando.zmon.boot.jetty;
 
-import javax.annotation.PostConstruct;
-
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.zalando.zmon.boot.jetty.resources.SimpleResource;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.SpringApplicationConfiguration;
+import org.springframework.boot.test.WebIntegrationTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.zalando.zmon.boot.jetty.JettyApplication;
 import org.zalando.zmon.jaxrs.jersey.BaseJerseyConfig;
 import org.zalando.zmon.jaxrs.jersey.BestMatchingPatternFilter;
 
 /**
- * Auto-Registration of {@link BestMatchingPatternFilter}.<br/>
+ * Uses den {@link BaseJerseyConfig} to register {@link BestMatchingPatternFilter} by default.
  * 
  * @author jbellmann
  *
  */
-@Configuration
-@Profile("!example2")
-public class JerseyConfig extends BaseJerseyConfig {
-
-	@PostConstruct
-	public void init() {
-		register(SimpleResource.class);
-	}
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringApplicationConfiguration(classes = { JettyApplication.class })
+@WebIntegrationTest
+@DirtiesContext
+public class BaseJerseyConfigIT extends AbstractRunner {
+	
 }

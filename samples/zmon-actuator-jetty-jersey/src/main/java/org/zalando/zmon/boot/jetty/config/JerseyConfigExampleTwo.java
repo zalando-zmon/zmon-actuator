@@ -13,33 +13,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zalando.zmon.jaxrs.jersey;
+package org.zalando.zmon.boot.jetty.config;
 
 import javax.annotation.PostConstruct;
 
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jersey.JerseyProperties;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.zalando.zmon.boot.jetty.resources.SimpleResource;
+import org.zalando.zmon.jaxrs.jersey.BestMatchingPatternFilter;
 
 /**
+ * Self-Registration of {@link BestMatchingPatternFilter}.<br/>
+ * Like default examples.
+ * 
  * @author jbellmann
  *
  */
-public class BaseJerseyConfig extends ResourceConfig {
+@Configuration
+@Profile("example2")
+public class JerseyConfigExampleTwo extends ResourceConfig {
 
 	@Autowired
 	private JerseyProperties jerseyProperties;
 
-	public BaseJerseyConfig() {
-	}
-
 	@PostConstruct
-	public void registerBestMatchingPatternFilter() {
-		register(new BestMatchingPatternFilter(getJerseyProperties().getApplicationPath()));
+	public void init() {
+		register(SimpleResource.class);
+		// have a look at 'application.yml' to see the configuration for
+		// jerseyProperties#getApplicationPath()
+		register(new BestMatchingPatternFilter(jerseyProperties.getApplicationPath()));
 	}
-
-	protected JerseyProperties getJerseyProperties() {
-		return this.jerseyProperties;
-	}
-
 }

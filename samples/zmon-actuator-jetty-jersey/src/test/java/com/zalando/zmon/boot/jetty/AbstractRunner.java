@@ -15,25 +15,15 @@
  */
 package com.zalando.zmon.boot.jetty;
 
-import java.util.concurrent.TimeUnit;
-
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
-import org.zalando.zmon.boot.jetty.JettyApplication;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(classes = { JettyApplication.class })
-@WebIntegrationTest
-public class JettyApplicationIT {
-	
+public abstract class AbstractRunner {
+
 	private static String LINE = "\"counter.status.200.api.simple.id.complex\":100";
 
 	@Value("${local.server.port}")
@@ -53,5 +43,4 @@ public class JettyApplicationIT {
 		// to use browser /metrics
 //		TimeUnit.MINUTES.sleep(2);
 	}
-
 }
