@@ -62,11 +62,16 @@ public class MetricsWrapper {
 
         try {
             submitToTimer(getKey(
-                    "zmon.backend[" + request.getURI().toString() + "]." + request.getMethod().name().toUpperCase()
-                        + "." + response.getStatusCode().toString()), stopwatch.elapsed(TimeUnit.MILLISECONDS));
+                    String.format("zmon.request.%s.%s.%s", response.getStatusCode().toString(),
+                        request.getMethod().name().toUpperCase(), getHost(request))),
+                stopwatch.elapsed(TimeUnit.MILLISECONDS));
         } catch (IOException e) {
             logger.warn("Could not detect status for " + response);
         }
+    }
+
+    private String getHost(final HttpRequest request) {
+        return request.getURI().getHost() + ":" + request.getURI().getPort();
     }
 
     private String getFinalStatus(final HttpServletRequest request) {

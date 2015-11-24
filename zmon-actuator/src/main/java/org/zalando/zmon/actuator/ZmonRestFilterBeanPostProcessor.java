@@ -35,13 +35,14 @@ import org.springframework.web.client.RestTemplate;
 public class ZmonRestFilterBeanPostProcessor implements BeanPostProcessor {
     private static final Log logger = LogFactory.getLog(ZmonRestFilterBeanPostProcessor.class);
 
-    private final ZmonRestResponseFilter zmonRestResponseFilter;
+    private final ZmonRestResponseBackendMetricsFilter zmonRestResponseFilter;
     private final List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
 
     @Autowired
-    public ZmonRestFilterBeanPostProcessor(final ZmonRestResponseFilter zmonRestResponseFilter) {
-        this.zmonRestResponseFilter = zmonRestResponseFilter;
-        interceptors.add(zmonRestResponseFilter);
+    public ZmonRestFilterBeanPostProcessor(
+            final ZmonRestResponseBackendMetricsFilter zmonRestResponseBackendMetricsFilter) {
+        this.zmonRestResponseFilter = zmonRestResponseBackendMetricsFilter;
+        interceptors.add(zmonRestResponseBackendMetricsFilter);
     }
 
     @Override

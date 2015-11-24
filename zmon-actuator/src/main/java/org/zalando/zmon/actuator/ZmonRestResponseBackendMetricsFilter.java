@@ -31,12 +31,12 @@ import org.zalando.zmon.actuator.metrics.MetricsWrapper;
 import com.google.common.base.Stopwatch;
 
 @Component
-public class ZmonRestResponseFilter implements ClientHttpRequestInterceptor {
+public class ZmonRestResponseBackendMetricsFilter implements ClientHttpRequestInterceptor {
 
     private final MetricsWrapper metricsWrapper;
 
     @Autowired
-    public ZmonRestResponseFilter(final MetricsWrapper metricsWrapper) {
+    public ZmonRestResponseBackendMetricsFilter(final MetricsWrapper metricsWrapper) {
         this.metricsWrapper = metricsWrapper;
     }
 

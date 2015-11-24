@@ -97,8 +97,7 @@ public class ZmonRestBackendMetricsTest {
             TimeUnit.MILLISECONDS.sleep(random.nextInt(30));
         }
 
-        assertThat(metricRegistry.getTimers().get("zmon.backend[http:.localhost:9999.something].DELETE.204"))
-            .isNotNull();
+        assertThat(metricRegistry.getTimers().get("zmon.request.204.DELETE.localhost:9999")).isNotNull();
 
         String metricsEndpointResponse = externalClient.getForObject("http://localhost:" + port + "/metrics",
                 String.class);
