@@ -71,7 +71,12 @@ public class MetricsWrapper {
     }
 
     private String getHost(final HttpRequest request) {
-        return request.getURI().getHost() + ":" + request.getURI().getPort();
+        return request.getURI().getHost() + getPort(request);
+    }
+
+    private String getPort(final HttpRequest request) {
+        final int port = request.getURI().getPort();
+        return port > 0 ? ":" + port : "";
     }
 
     private String getFinalStatus(final HttpServletRequest request) {
