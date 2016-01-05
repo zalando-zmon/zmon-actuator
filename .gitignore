@@ -6,3 +6,5 @@ target
 .springBeans
 release.properties
 pom.xml.releaseBackup
+*.iml
+.idea

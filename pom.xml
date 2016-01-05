@@ -9,7 +9,7 @@
     <groupId>org.zalando.zmon</groupId>
     <artifactId>zmon-actuator-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.9.4-SNAPSHOT</version>
+    <version>0.9.5-SNAPSHOT</version>
 
     <properties>
         <java.source>1.7</java.source>
