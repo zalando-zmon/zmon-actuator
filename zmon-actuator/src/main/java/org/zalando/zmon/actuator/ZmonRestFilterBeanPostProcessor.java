@@ -20,15 +20,11 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-
 import org.springframework.http.client.ClientHttpRequestInterceptor;
-
 import org.springframework.stereotype.Component;
-
 import org.springframework.web.client.RestTemplate;
 
 @Component
@@ -53,7 +49,7 @@ public class ZmonRestFilterBeanPostProcessor implements BeanPostProcessor {
 
             RestTemplate restTemplateBean = (RestTemplate) possiblyRestTemplateBean;
 
-            restTemplateBean.setInterceptors(interceptors);
+            restTemplateBean.getInterceptors().addAll(interceptors);
             logger.info("Added " + ZmonRestFilterBeanPostProcessor.class.getCanonicalName() + " instance to "
                     + beanName);
         }
