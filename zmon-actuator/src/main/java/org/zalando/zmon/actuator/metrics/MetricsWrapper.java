@@ -15,28 +15,20 @@
  */
 package org.zalando.zmon.actuator.metrics;
 
-import java.io.IOException;
-
-import java.util.concurrent.TimeUnit;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.http.HttpRequest;
-import org.springframework.http.client.ClientHttpResponse;
-
-import org.springframework.stereotype.Component;
-
-import org.springframework.web.servlet.HandlerMapping;
-
 import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.Timer;
-
 import com.google.common.base.Stopwatch;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.HandlerMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class MetricsWrapper {
@@ -57,14 +49,17 @@ public class MetricsWrapper {
         submitToTimer(getKey("zmon.response." + status + "." + request.getMethod().toUpperCase() + suffix), time);
     }
 
+    public void recordBackendRoundTripMetrics(final String requestMethod, final String host, final int status,
+            final long time) {
+
+        submitToTimer(getKey(String.format("zmon.request.%s.%s.%s", status, requestMethod.toUpperCase(), host)), time);
+    }
+
     public void recordBackendRoundTripMetrics(final HttpRequest request, final ClientHttpResponse response,
             final Stopwatch stopwatch) {
 
         try {
-            submitToTimer(getKey(
-                    String.format("zmon.request.%s.%s.%s", response.getStatusCode().toString(),
-                        request.getMethod().name().toUpperCase(), getHost(request))),
-                stopwatch.elapsed(TimeUnit.MILLISECONDS));
+            recordBackendRoundTripMetrics(request.getMethod().name(), getHost(request), response.getRawStatusCode(), stopwatch.elapsed(TimeUnit.MILLISECONDS));
         } catch (IOException e) {
             logger.warn("Could not detect status for " + response);
         }
