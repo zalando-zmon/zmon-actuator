@@ -27,12 +27,12 @@ import org.springframework.web.client.RestTemplate;
 public class ZmonRestFilterBeanPostProcessor implements BeanPostProcessor {
     private static final Log logger = LogFactory.getLog(ZmonRestFilterBeanPostProcessor.class);
 
-    private final ZmonRestResponseBackendMetricsFilter zmonRestResponseFilter;
+    private final ZmonRestResponseBackendMetricsInterceptor interceptor;
 
     @Autowired
     public ZmonRestFilterBeanPostProcessor(
-            final ZmonRestResponseBackendMetricsFilter zmonRestResponseBackendMetricsFilter) {
-        this.zmonRestResponseFilter = zmonRestResponseBackendMetricsFilter;
+            final ZmonRestResponseBackendMetricsInterceptor zmonRestResponseBackendMetricsFilter) {
+        this.interceptor = zmonRestResponseBackendMetricsFilter;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ZmonRestFilterBeanPostProcessor implements BeanPostProcessor {
 
             RestTemplate restTemplateBean = (RestTemplate) possiblyRestTemplateBean;
 
-            restTemplateBean.getInterceptors().add(zmonRestResponseFilter);
+            restTemplateBean.getInterceptors().add(interceptor);
             logger.info("Added " + ZmonRestFilterBeanPostProcessor.class.getCanonicalName() + " instance to "
                     + beanName);
         }

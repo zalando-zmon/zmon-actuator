@@ -39,7 +39,7 @@ import org.zalando.zmon.actuator.metrics.MetricsWrapper;
 
 import com.google.common.base.Stopwatch;
 
-public class ZmonRestResponseBackendMetricsFilterTest {
+public class ZmonRestResponseBackendMetricsInterceptorTest {
 
     public static final int PREFERRED_SLEEP_TIME = 200;
     MetricsWrapper mockedWrapper = Mockito.mock(MetricsWrapper.class);
@@ -47,7 +47,7 @@ public class ZmonRestResponseBackendMetricsFilterTest {
 
     @Test
     public void testTimeElapsing() throws IOException {
-        ZmonRestResponseBackendMetricsFilter zmonRestResponseFilter = new ZmonRestResponseBackendMetricsFilter(
+        ZmonRestResponseBackendMetricsInterceptor interceptor = new ZmonRestResponseBackendMetricsInterceptor(
                 mockedWrapper);
 
         Mockito.when(execution.execute(Mockito.any(HttpRequest.class), Mockito.any(byte[].class))).then(
@@ -60,7 +60,7 @@ public class ZmonRestResponseBackendMetricsFilterTest {
             });
 
         ArgumentCaptor<Stopwatch> stopwatchArgumentCaptor = ArgumentCaptor.forClass(Stopwatch.class);
-        zmonRestResponseFilter.intercept(null, null, execution);
+        interceptor.intercept(null, null, execution);
 
         Mockito.verify(mockedWrapper, times(1)).recordBackendRoundTripMetrics(Mockito.any(HttpRequest.class),
             Mockito.any(ClientHttpResponse.class), stopwatchArgumentCaptor.capture());
