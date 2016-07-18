@@ -1,3 +1,5 @@
+![Maven Central](https://img.shields.io/maven-central/v/org.zalando.zmon/zmon-actuator.svg)
+
 ## Usage
 
 Add the following dependency to your spring-boot project.
@@ -17,7 +19,7 @@ management:
 <dependency>
    <groupId>org.zalando.zmon</groupId>
    <artifactId>zmon-actuator</artifactId>
-   <version>0.9.3</version>
+   <version>${version}</version>
 </dependency>
 ```
 
