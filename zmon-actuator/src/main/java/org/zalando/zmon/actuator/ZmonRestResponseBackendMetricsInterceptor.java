@@ -15,14 +15,14 @@
  */
 package org.zalando.zmon.actuator;
 
-import com.google.common.base.Stopwatch;
+import java.io.IOException;
+
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.util.StopWatch;
 import org.zalando.zmon.actuator.metrics.MetricsWrapper;
-
-import java.io.IOException;
 
 public class ZmonRestResponseBackendMetricsInterceptor implements ClientHttpRequestInterceptor {
 
@@ -36,7 +36,8 @@ public class ZmonRestResponseBackendMetricsInterceptor implements ClientHttpRequ
     public ClientHttpResponse intercept(final HttpRequest request, final byte[] body,
             final ClientHttpRequestExecution execution) throws IOException {
 
-        Stopwatch stopwatch = Stopwatch.createStarted();
+        StopWatch stopwatch = new StopWatch();
+        stopwatch.start();
         ClientHttpResponse response = execution.execute(request, body);
         stopwatch.stop();
         metricsWrapper.recordBackendRoundTripMetrics(request, response, stopwatch);
