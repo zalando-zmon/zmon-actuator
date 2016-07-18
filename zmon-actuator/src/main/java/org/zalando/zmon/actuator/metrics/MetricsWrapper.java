@@ -15,22 +15,22 @@
  */
 package org.zalando.zmon.actuator.metrics;
 
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.Timer;
-import com.google.common.base.Stopwatch;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.stereotype.Component;
+import org.springframework.util.StopWatch;
 import org.springframework.web.servlet.HandlerMapping;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.Timer;
 
-@Component
 public class MetricsWrapper {
 
     private static final String UNKNOWN_PATH_SUFFIX = "/unmapped";
@@ -56,10 +56,10 @@ public class MetricsWrapper {
     }
 
     public void recordBackendRoundTripMetrics(final HttpRequest request, final ClientHttpResponse response,
-            final Stopwatch stopwatch) {
+            final StopWatch stopwatch) {
 
         try {
-            recordBackendRoundTripMetrics(request.getMethod().name(), getHost(request), response.getRawStatusCode(), stopwatch.elapsed(TimeUnit.MILLISECONDS));
+            recordBackendRoundTripMetrics(request.getMethod().name(), getHost(request), response.getRawStatusCode(), stopwatch.getTotalTimeMillis());
         } catch (IOException e) {
             logger.warn("Could not detect status for " + response);
         }

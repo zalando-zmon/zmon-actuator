@@ -17,25 +17,17 @@ package org.zalando.zmon.actuator;
 
 import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
-
-import org.springframework.stereotype.Component;
-
+import org.springframework.util.StopWatch;
 import org.zalando.zmon.actuator.metrics.MetricsWrapper;
 
-import com.google.common.base.Stopwatch;
-
-@Component
 public class ZmonRestResponseBackendMetricsInterceptor implements ClientHttpRequestInterceptor {
 
     private final MetricsWrapper metricsWrapper;
 
-    @Autowired
     public ZmonRestResponseBackendMetricsInterceptor(final MetricsWrapper metricsWrapper) {
         this.metricsWrapper = metricsWrapper;
     }
@@ -44,7 +36,8 @@ public class ZmonRestResponseBackendMetricsInterceptor implements ClientHttpRequ
     public ClientHttpResponse intercept(final HttpRequest request, final byte[] body,
             final ClientHttpRequestExecution execution) throws IOException {
 
-        Stopwatch stopwatch = Stopwatch.createStarted();
+        StopWatch stopwatch = new StopWatch();
+        stopwatch.start();
         ClientHttpResponse response = execution.execute(request, body);
         stopwatch.stop();
         metricsWrapper.recordBackendRoundTripMetrics(request, response, stopwatch);
