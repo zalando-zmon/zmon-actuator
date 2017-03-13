@@ -33,10 +33,10 @@ import com.codahale.metrics.Timer;
 
 public class MetricsWrapper {
 
+    private static final Log LOGGER = LogFactory.getLog(MetricsWrapper.class);
     private static final String UNKNOWN_PATH_SUFFIX = "/unmapped";
-    private final MetricRegistry metricRegistry;
 
-    private static final Log logger = LogFactory.getLog(MetricsWrapper.class);
+    private final MetricRegistry metricRegistry;
 
     @Autowired
     public MetricsWrapper(final MetricRegistry metricRegistry) {
@@ -46,13 +46,16 @@ public class MetricsWrapper {
     public void recordClientRequestMetrics(final HttpServletRequest request, final String path, final int status,
             final long time) {
         String suffix = getFinalStatus(request);
-        submitToTimer(getKey("zmon.response." + status + "." + request.getMethod().toUpperCase() + suffix), time);
+
+        String metricName = metricNameFrom("zmon.response", status, request.getMethod(), suffix);
+        submitToTimer(metricName, time);
     }
 
     public void recordBackendRoundTripMetrics(final String requestMethod, final String host, final int status,
-            final long time) {
+                                              final long time) {
 
-        submitToTimer(getKey(String.format("zmon.request.%s.%s.%s", status, requestMethod.toUpperCase(), host)), time);
+        String metricName = metricNameFrom("zmon.request", status, requestMethod, host);
+        submitToTimer(metricName, time);
     }
 
     public void recordBackendRoundTripMetrics(final HttpRequest request, final ClientHttpResponse response,
@@ -61,7 +64,7 @@ public class MetricsWrapper {
         try {
             recordBackendRoundTripMetrics(request.getMethod().name(), getHost(request), response.getRawStatusCode(), stopwatch.getTotalTimeMillis());
         } catch (IOException e) {
-            logger.warn("Could not detect status for " + response);
+            LOGGER.warn("Could not detect status for " + response);
         }
     }
 
@@ -84,7 +87,7 @@ public class MetricsWrapper {
         return UNKNOWN_PATH_SUFFIX;
     }
 
-    private String fixSpecialCharacters(final String value) {
+    private static String fixSpecialCharacters(final String value) {
         String result = value.replaceAll("[{}]", "-");
         result = result.replace("**", "-star-star-");
         result = result.replace("*", "-star-");
@@ -106,11 +109,16 @@ public class MetricsWrapper {
             Timer timer = metricRegistry.timer(metricName);
             timer.update(value, TimeUnit.MILLISECONDS);
         } catch (Exception e) {
-            logger.warn("Unable to submit timer metric '" + metricName + "'", e);
+            LOGGER.warn("Unable to submit timer metric '" + metricName + "'", e);
         }
     }
 
-    private String getKey(final String string) {
+    private static String metricNameFrom(final String prefix, final int status, final String requestMethod, final String suffix) {
+        String dirtyName = prefix + "." + status + "." + requestMethod.toUpperCase() + "." + suffix;
+        return sanitizeMetricName(dirtyName);
+    }
+
+    private static String sanitizeMetricName(final String string) {
 
         // graphite compatible metric names
         String value = string.replace("/", ".");
