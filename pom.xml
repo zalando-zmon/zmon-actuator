@@ -92,10 +92,9 @@
     </profiles>
 
     <scm>
-        <url>https://github.com/zalando/zmon-actuator.git</url>
-        <connection>scm:git:https://github.com/zalando/zmon-actuator.git</connection>
-        <developerConnection>scm:git:https://github.com/zalando/zmon-actuator.git</developerConnection>
-        <tag>HEAD</tag>
+        <url>https://github.com/zalando-zmon/zmon-actuator.git</url>
+        <connection>scm:git:https://github.com/zalando-zmon/zmon-actuator.git</connection>
+        <developerConnection>scm:git:https://github.com/zalando-zmon/zmon-actuator.git</developerConnection>
     </scm>
 
     <licenses>
