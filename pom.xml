@@ -9,7 +9,7 @@
     <groupId>org.zalando.zmon</groupId>
     <artifactId>zmon-actuator-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.9.8-SNAPSHOT</version>
+    <version>0.9.9-SNAPSHOT</version>
 
     <properties>
         <java.source>1.7</java.source>
@@ -92,11 +92,11 @@
     </profiles>
 
     <scm>
-        <url>https://github.com/zalando/zmon-actuator.git</url>
-        <connection>scm:git:https://github.com/zalando/zmon-actuator.git</connection>
-        <developerConnection>scm:git:https://github.com/zalando/zmon-actuator.git</developerConnection>
-        <tag>HEAD</tag>
-    </scm>
+        <url>https://github.com/zalando-zmon/zmon-actuator.git</url>
+        <connection>scm:git:https://github.com/zalando-zmon/zmon-actuator.git</connection>
+        <developerConnection>scm:git:https://github.com/zalando-zmon/zmon-actuator.git</developerConnection>
+      <tag>HEAD</tag>
+  </scm>
 
     <licenses>
         <license>
