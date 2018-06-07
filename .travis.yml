@@ -1,6 +1,6 @@
 language: java
 
-sudo: true
+# sudo: true
 
 jdk: oraclejdk7
 
@@ -8,4 +8,4 @@ script:
     - mvn clean install
 
 after_success:
-    - mvn coveralls:report -Ptravis
+  - bash <(curl -s https://codecov.io/bash)
