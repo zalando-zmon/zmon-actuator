@@ -1,18 +1,17 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.5.13.RELEASE</version>
-        <relativePath/>
+        <relativePath />
     </parent>
 
     <groupId>org.zalando.zmon</groupId>
     <artifactId>zmon-actuator-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.9.9-SNAPSHOT</version>
+    <version>0.9.9</version>
     <url>https://zmon.io</url>
     <description>Improved REST endpoint metrics for Spring Boot Projects</description>
 
@@ -161,7 +160,7 @@
         <url>https://github.com/zalando-zmon/zmon-actuator.git</url>
         <connection>scm:git:git@github.com:zalando-zmon/zmon-actuator.git</connection>
         <developerConnection>scm:git:git@github.com:zalando-zmon/zmon-actuator.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>0.9.9</tag>
     </scm>
 
     <licenses>
