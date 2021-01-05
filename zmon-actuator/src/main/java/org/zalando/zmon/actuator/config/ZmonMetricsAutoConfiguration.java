@@ -1,6 +1,7 @@
 package org.zalando.zmon.actuator.config;
 
 import com.codahale.metrics.MetricRegistry;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
@@ -19,8 +20,8 @@ import org.zalando.zmon.actuator.metrics.MetricsWrapper;
 public class ZmonMetricsAutoConfiguration {
 
     @Bean(name = "zmonMetricsWrapper")
-    public MetricsWrapper zmonMetricsWrapper(final MetricRegistry metricRegistry) {
-        return new MetricsWrapper(metricRegistry);
+    public MetricsWrapper zmonMetricsWrapper(final MeterRegistry meterRegistry) {
+        return new MetricsWrapper(meterRegistry);
     }
 
     @Bean

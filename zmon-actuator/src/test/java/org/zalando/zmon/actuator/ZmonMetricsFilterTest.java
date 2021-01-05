@@ -1,7 +1,6 @@
 package org.zalando.zmon.actuator;
 
-import com.codahale.metrics.ConsoleReporter;
-import com.codahale.metrics.MetricRegistry;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +22,9 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
  * @author jbellmann
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = ExampleApplication.class, webEnvironment = RANDOM_PORT, properties = {"debug=false"})
+@SpringBootTest(classes = ExampleApplication.class, webEnvironment = RANDOM_PORT,
+        properties = {"debug=false",
+        "management.endpoints.web.exposure.include=prometheus,health,info,metric"})
 public class ZmonMetricsFilterTest {
 
     private final Logger logger = LoggerFactory.getLogger(ZmonMetricsFilterTest.class);
@@ -32,19 +33,12 @@ public class ZmonMetricsFilterTest {
     private int port;
 
     @Autowired
-    private MetricRegistry metricRegistry;
+    private MeterRegistry meterRegistry;
 
     private TestRestTemplate restTemplate = new TestRestTemplate();
 
 
     private final Random random = new Random(System.currentTimeMillis());
-
-    @Before
-    public void setUp() {
-        ConsoleReporter reporter = ConsoleReporter.forRegistry(metricRegistry).convertRatesTo(TimeUnit.SECONDS)
-                .convertDurationsTo(TimeUnit.MILLISECONDS).build();
-        reporter.start(2, TimeUnit.SECONDS);
-    }
 
     @Test
     public void test() throws InterruptedException {
@@ -54,10 +48,10 @@ public class ZmonMetricsFilterTest {
             TimeUnit.MILLISECONDS.sleep(random.nextInt(500));
         }
 
-        assertThat(metricRegistry.getTimers().get("zmon.response.200.GET.hello")).isNotNull();
-        assertThat(metricRegistry.getTimers().get("zmon.response.503.GET.hello")).isNotNull();
+        assertThat(meterRegistry.get("zmon.response.200.GET.hello").timers()).isNotNull();
+        assertThat(meterRegistry.get("zmon.response.503.GET.hello").timers()).isNotNull();
 
-        String metricsEndpointResponse = restTemplate.getForObject("http://localhost:" + port + "/metrics",
+        String metricsEndpointResponse = restTemplate.getForObject("http://localhost:" + port + "/actuator/prometheus",
                 String.class);
 
         logger.info(metricsEndpointResponse);
