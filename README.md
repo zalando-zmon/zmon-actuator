@@ -1,8 +1,6 @@
 ![Maven Central](https://img.shields.io/maven-central/v/org.zalando.zmon/zmon-actuator.svg)
 
-## Usage
-
-Add the following dependency to your spring-boot project.
+Uses [Micrometer](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-metrics) for collecting core metrics (e.g. jvm, cpu, etc.) wherever applicable as well as custom metrics for your application.
 
 ## Security
 
@@ -12,8 +10,11 @@ Add security to your management endpoints or move management endpoints to a diff
 management:
   port: 7979
 ```
+## Usage
 
-## Maven Dependency
+Add the following dependency to your spring-boot project.
+
+### Maven Dependency
 
 ```
 <dependency>
