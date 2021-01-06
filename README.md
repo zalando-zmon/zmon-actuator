@@ -39,25 +39,75 @@ and the [example-application](https://github.com/zalando/zmon-actuator/tree/mast
 
 Important is to use at least the specified Jersey versions as defined in the POM. These will be included in spring boot 1.3+
 
-## Result on /metrics endpoint
+## Metrics endpoint
+Navigating to `/actuator/metrics` displays a list of available meter names. 
+```
+{
+   "names":[
+      "http.server.requests",
+      "jvm.buffer.count",
+      "jvm.buffer.memory.used",
+      "jvm.buffer.total.capacity",
+      "jvm.classes.loaded",
+      "jvm.classes.unloaded",
+      "jvm.gc.live.data.size",
+      "jvm.gc.max.data.size",
+      "jvm.gc.memory.allocated",
+      "jvm.gc.memory.promoted",
+      "jvm.gc.pause",
+      "jvm.memory.committed",
+      "jvm.memory.max",
+      "jvm.memory.used",
+      "jvm.threads.daemon",
+      "jvm.threads.live",
+      "jvm.threads.peak",
+      "jvm.threads.states",
+      "logback.events",
+      "process.cpu.usage",
+      "process.files.max",
+      "process.files.open",
+      "process.start.time",
+      "process.uptime",
+      "system.cpu.count",
+      "system.cpu.usage",
+      "system.load.average.1m",
+      "tomcat.sessions.active.current",
+      "tomcat.sessions.active.max",
+      "tomcat.sessions.alive.max",
+      "tomcat.sessions.created",
+      "tomcat.sessions.expired",
+      "tomcat.sessions.rejected",
+      "zmon.response.200.GET.hello",
+      "zmon.response.503.GET.hello"
+   ]
+}
+```
+
+You can drill down to view information about a particular meter by providing its name as a selector. For example: 
+`/actuator/metrics/zmon.response.200.GET.hello` results in the following:
 
 ```
-{  
-  "zmon.response.200.GET.rest.api.v1.checks.all-active-check-definitions.count": 10,
-  "zmon.response.200.GET.rest.api.v1.checks.all-active-check-definitions.fifteenMinuteRate": 0.18076110580284566,
-  "zmon.response.200.GET.rest.api.v1.checks.all-active-check-definitions.fiveMinuteRate": 0.1518180485219247,
-  "zmon.response.200.GET.rest.api.v1.checks.all-active-check-definitions.meanRate": 0.06792011610723951,
-  "zmon.response.200.GET.rest.api.v1.checks.all-active-check-definitions.oneMinuteRate": 0.10512398137982051,
-  "zmon.response.200.GET.rest.api.v1.checks.all-active-check-definitions.snapshot.75thPercentile": 1173,
-  "zmon.response.200.GET.rest.api.v1.checks.all-active-check-definitions.snapshot.95thPercentile": 1233,
-  "zmon.response.200.GET.rest.api.v1.checks.all-active-check-definitions.snapshot.98thPercentile": 1282,
-  "zmon.response.200.GET.rest.api.v1.checks.all-active-check-definitions.snapshot.999thPercentile": 1282,
-  "zmon.response.200.GET.rest.api.v1.checks.all-active-check-definitions.snapshot.99thPercentile": 1282,
-  "zmon.response.200.GET.rest.api.v1.checks.all-active-check-definitions.snapshot.max": 1282,
-  "zmon.response.200.GET.rest.api.v1.checks.all-active-check-definitions.snapshot.mean": 1170,
-  "zmon.response.200.GET.rest.api.v1.checks.all-active-check-definitions.snapshot.median": 1161,
-  "zmon.response.200.GET.rest.api.v1.checks.all-active-check-definitions.snapshot.min": 1114,
-  "zmon.response.200.GET.rest.api.v1.checks.all-active-check-definitions.snapshot.stdDev": 42,
+{
+   "name":"zmon.response.200.GET.hello",
+   "description":null,
+   "baseUnit":"seconds",
+   "measurements":[
+      {
+         "statistic":"COUNT",
+         "value":67.0
+      },
+      {
+         "statistic":"TOTAL_TIME",
+         "value":0.406
+      },
+      {
+         "statistic":"MAX",
+         "value":0.294
+      }
+   ],
+   "availableTags":[
+      
+   ]
 }
 ```
 

@@ -34,7 +34,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @SpringBootTest(classes = ExampleApplication.class, webEnvironment = RANDOM_PORT,
         properties = {"debug=false",
                 "management.security.enabled=false",
-                "management.endpoints.web.exposure.include=prometheus,health,info,metric"})
+                "management.endpoints.web.exposure.include=health,info,metrics"})
 public class ZmonRestBackendMetricsTest {
 
     private static final int REPEATS = 100;
@@ -67,7 +67,7 @@ public class ZmonRestBackendMetricsTest {
 
         assertThat(meterRegistry.get("zmon.request.204.DELETE.localhost:9999").timers()).isNotNull();
 
-        String metricsEndpointResponse = externalClient.getForObject("http://localhost:" + port + "/actuator/prometheus",
+        String metricsEndpointResponse = externalClient.getForObject("http://localhost:" + port + "/actuator/metrics/zmon.request.204.DELETE.localhost:9999",
                 String.class);
 
         logger.info(metricsEndpointResponse);
