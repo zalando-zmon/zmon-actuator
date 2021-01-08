@@ -50,10 +50,5 @@ public class ZmonMetricsFilterTest {
 
         assertThat(meterRegistry.get("zmon.response.200.GET.hello").timers()).isNotNull();
         assertThat(meterRegistry.get("zmon.response.503.GET.hello").timers()).isNotNull();
-
-        String metricsEndpointResponse = restTemplate.getForObject("http://localhost:" + port + "/actuator/metrics/zmon.response.200.GET.hello",
-                String.class);
-
-        logger.info(metricsEndpointResponse);
     }
 }

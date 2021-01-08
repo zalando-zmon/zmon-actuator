@@ -66,11 +66,6 @@ public class ZmonRestBackendMetricsTest {
         }
 
         assertThat(meterRegistry.get("zmon.request.204.DELETE.localhost:9999").timers()).isNotNull();
-
-        String metricsEndpointResponse = externalClient.getForObject("http://localhost:" + port + "/actuator/metrics/zmon.request.204.DELETE.localhost:9999",
-                String.class);
-
-        logger.info(metricsEndpointResponse);
     }
 
     private void expectDeleteCall() {
