@@ -11,12 +11,12 @@
     <groupId>org.zalando.zmon</groupId>
     <artifactId>zmon-actuator-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.9.10-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <url>https://zmon.io</url>
     <description>Improved REST endpoint metrics for Spring Boot Projects</description>
 
     <properties>
-        <java.version>1.7</java.version>
+        <java.version>1.8</java.version>
 
         <!-- using the nexus-staging-maven-plugin instead of maven-deploy-plugin-->
         <maven.deploy.skip>true</maven.deploy.skip>
