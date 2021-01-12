@@ -1,7 +1,7 @@
 package org.zalando.zmon.actuator.metrics;
 
-import com.codahale.metrics.MetricRegistry;
-import com.codahale.metrics.Timer;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
@@ -20,11 +20,11 @@ public class MetricsWrapper {
     private static final Logger LOGGER = getLogger(MetricsWrapper.class);
     private static final String UNKNOWN_PATH_SUFFIX = "/unmapped";
 
-    private final MetricRegistry metricRegistry;
+    private final MeterRegistry meterRegistry;
 
     @Autowired
-    public MetricsWrapper(final MetricRegistry metricRegistry) {
-        this.metricRegistry = metricRegistry;
+    public MetricsWrapper(final MeterRegistry meterRegistry) {
+        this.meterRegistry = meterRegistry;
     }
 
     public void recordClientRequestMetrics(final HttpServletRequest request, final String path, final int status,
@@ -90,8 +90,8 @@ public class MetricsWrapper {
 
     private void submitToTimer(final String metricName, final long value) {
         try {
-            Timer timer = metricRegistry.timer(metricName);
-            timer.update(value, TimeUnit.MILLISECONDS);
+            Timer timer = meterRegistry.timer(metricName);
+            timer.record(value, TimeUnit.MILLISECONDS);
         } catch (Exception e) {
             LOGGER.warn("Unable to submit timer metric '" + metricName + "'", e);
         }

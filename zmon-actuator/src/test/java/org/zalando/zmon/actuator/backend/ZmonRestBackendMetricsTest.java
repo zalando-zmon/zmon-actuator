@@ -1,9 +1,8 @@
 package org.zalando.zmon.actuator.backend;
 
-import com.codahale.metrics.ConsoleReporter;
-import com.codahale.metrics.MetricRegistry;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -33,7 +32,9 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ExampleApplication.class, webEnvironment = RANDOM_PORT,
-        properties = {"debug=false", "management.security.enabled=false"})
+        properties = {"debug=false",
+                "management.security.enabled=false",
+                "management.endpoints.web.exposure.include=health,info,metrics"})
 public class ZmonRestBackendMetricsTest {
 
     private static final int REPEATS = 100;
@@ -43,7 +44,7 @@ public class ZmonRestBackendMetricsTest {
     private int port;
 
     @Autowired
-    private MetricRegistry metricRegistry;
+    private MeterRegistry meterRegistry;
 
     private RestTemplate externalClient = new RestTemplate();
 
@@ -54,26 +55,17 @@ public class ZmonRestBackendMetricsTest {
 
     @Before
     public void setUp() {
-        ConsoleReporter reporter = ConsoleReporter.forRegistry(metricRegistry).convertRatesTo(TimeUnit.SECONDS)
-                .convertDurationsTo(TimeUnit.MILLISECONDS).build();
-        reporter.start(2, TimeUnit.SECONDS);
         expectDeleteCall();
     }
 
     @Test
     public void test() throws InterruptedException {
         for (int i = 0; i < REPEATS; i++) {
-
             externalClient.getForObject("http://localhost:" + port + "/timeConsumingCall", String.class);
             TimeUnit.MILLISECONDS.sleep(random.nextInt(30));
         }
 
-        assertThat(metricRegistry.getTimers().get("zmon.request.204.DELETE.localhost:9999")).isNotNull();
-
-        String metricsEndpointResponse = externalClient.getForObject("http://localhost:" + port + "/metrics",
-                String.class);
-
-        logger.info(metricsEndpointResponse);
+        assertThat(meterRegistry.get("zmon.request.204.DELETE.localhost:9999").timers()).isNotNull();
     }
 
     private void expectDeleteCall() {
