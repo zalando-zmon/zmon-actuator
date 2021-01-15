@@ -1,5 +1,11 @@
 ![Maven Central](https://img.shields.io/maven-central/v/org.zalando.zmon/zmon-actuator.svg)
 
+ZMON source code on GitHub is no longer in active development. Zalando will no longer actively review issues or merge pull-requests.
+
+ZMON is still being used at Zalando and serves us well for many purposes. We are now deeper into our observability journey and understand better that we need other telemetry sources and tools to elevate our understanding of the systems we operate. We support the [OpenTelemetry](https://opentelemetry.io) initiative and recommended others starting their journey to begin there.
+
+If members of the community are interested in continuing developing ZMON, consider forking it. Please review the licence before you do.
+
 Uses [Micrometer](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-metrics) for collecting core metrics (e.g. jvm, cpu, etc.) wherever applicable as well as custom metrics for your application.
 
 ## Security
